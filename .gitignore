@@ -7,4 +7,11 @@
 /public/bundles/
 /var/
 /vendor/
+.env
 ###< symfony/framework-bundle ###
+
+###< gemini/cli ###
+/.gemini
+.geminiignore
+GEMINI.md
+###< gemini/cli ###
