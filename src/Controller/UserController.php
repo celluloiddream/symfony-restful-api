@@ -6,14 +6,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 
-final class ApiController extends AbstractController
+final class UserController extends AbstractController
 {
-    #[Route('/', name: 'app_api')]
+    #[Route('/users', name: 'app_user')]
     public function index(): JsonResponse
     {
         return $this->json([
-            'message' => 'Welcome to Symfony RESTful API',
-            'version' => '0.0.4'
+            'message' => 'Welcome to your new controller!',
+            'path' => 'src/Controller/UserController.php',
         ]);
     }
 }
