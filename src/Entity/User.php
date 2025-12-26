@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UlidGenerator;
 use Symfony\Bridge\Doctrine\Types\UlidType;
 use Symfony\Component\Uid\Ulid;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -17,19 +17,20 @@ class User
     #[ORM\Column(type: UlidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: UlidGenerator::class)]
-    #[Groups(['user:read'])]
     private ?Ulid $id = null;
 
-    #[ORM\Column(length: 255)]
-    #[Groups(['user:read', 'user:write'])]
+    #[ORM\Column]
+    #[Assert\NotBlank]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255, unique: true)]
-    #[Groups(['user:read', 'user:write'])]
+    #[ORM\Column(unique: true)]
+    #[Assert\NotBlank]
+    #[Assert\Email]
     private ?string $email = null;
 
-    #[ORM\Column(length: 255)]
-    #[Groups(['user:write'])]
+    #[ORM\Column]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 6)]
     private ?string $password = null;
 
     public function getId(): ?string
@@ -42,7 +43,7 @@ class User
         return $this->name;
     }
 
-    public function setName(string $name): static
+    public function setName(?string $name): self
     {
         $this->name = $name;
         return $this;
@@ -53,7 +54,7 @@ class User
         return $this->email;
     }
 
-    public function setEmail(string $email): static
+    public function setEmail(?string $email): self
     {
         $this->email = $email;
         return $this;
@@ -64,7 +65,7 @@ class User
         return $this->password;
     }
 
-    public function setPassword(string $password): static
+    public function setPassword(?string $password): self
     {
         $this->password = $password;
         return $this;
